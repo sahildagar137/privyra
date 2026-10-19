@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahil | Cybersecurity Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* ===== CSS RESET & VARIABLES ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #00ff41;
+            --neon-blue: #00d4ff;
+            --neon-purple: #b300ff;
+            --neon-red: #ff0040;
+            --dark-bg: #0a0a0f;
+            --card-bg: #0d1117;
+            --card-border: #1a2332;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --gradient-1: linear-gradient(135deg, #00ff41, #00d4ff);
+            --gradient-2: linear-gradient(135deg, #00d4ff, #b300ff);
+            --gradient-3: linear-gradient(135deg, #b300ff, #ff0040);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ===== MATRIX RAIN CANVAS ===== */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.06;
+            pointer-events: none;
+        }
+
+        /* ===== CYBER GRID BACKGROUND ===== */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(0px);
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 10, 15, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 255, 65, 0.15);
+            box-shadow: 0 4px 30px rgba(0, 255, 65, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .nav-logo span {
+            color: var(--neon-green);
+            -webkit-text-fill-color: var(--neon-green);
+            opacity: 0.7;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-green);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-green);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: var(--neon-green);
+            transition: all 0.3s ease;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            padding: 0 30px;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+        }
+
+        .hero-terminal {
+            background: rgba(13, 17, 23, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 40px 50px;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-terminal::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--neon-green), transparent, var(--neon-blue));
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red { background: #ff5f57; }
+        .terminal-dot.yellow { background: #febc2e; }
+        .terminal-dot.green { background: #28c840; }
+
+        .hero-greeting {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--neon-green);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .hero-greeting span {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .hero-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .hero-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .hero-tagline {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--neon-blue);
+            font-size: 0.95rem;
+            margin-bottom: 35px;
+            opacity: 0.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.95rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--neon-green);
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 212, 255, 0.1);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* ===== SECTION STYLES ===== */
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 100px 30px;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--neon-green);
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .section-line {
+            width: 80px;
+            height: 3px;
+            background: var(--gradient-1);
+            margin: 0 auto;
+            border-radius: 2px;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .about-text .highlight {
+            color: var(--neon-green);
+            font-weight: 600;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 25px rgba(0, 255, 65, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neon-green);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* ===== SKILLS SECTION ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .skill-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .skill-card:hover {
+            border-color: rgba(0, 255, 65, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .skill-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--neon-green);
+            margin-bottom: 10px;
+        }
+
+        .skill-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .skill-tag {
+            background: rgba(0, 255, 65, 0.08);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--neon-green);
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        /* ===== PROJECTS SECTION ===== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .project-card:hover {
+            border-color: rgba(0, 255, 65, 0.3);
+            box-shadow: 0 0 50px rgba(0, 255, 65, 0.08);
+            transform: translateY(-5px);
+        }
+
+        .project-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 400px;
+        }
+
+        .project-card:nth-child(even) .project-layout {
+            direction: rtl;
+        }
+
+        .project-card:nth-child(even) .project-layout > * {
+            direction: ltr;
+        }
+
+        .project-image-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-image-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .project-image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 255, 65, 0.1), rgba(0, 212, 255, 0.05));
+            pointer-events: none;
+        }
+
+        .project-number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: rgba(0, 255, 65, 0.2);
+            backdrop-filter: blur(10px);
+            color: var(--neon-green);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .project-info {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .project-category {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--neon-blue);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .project-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--neon-green);
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .project-desc {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .tech-badge {
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--neon-blue);
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .project-highlights {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .project-highlights li {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            padding: 4px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .project-highlights li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--neon-green);
+            font-weight: bold;
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact-content {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-text {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .contact-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 30px 40px;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            min-width: 180px;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--neon-green);
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.15);
+        }
+
+        .contact-card i {
+            font-size: 2.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-card-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .contact-card-value {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--neon-green);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid var(--card-border);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .footer p {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .footer .heart {
+            color: var(--neon-green);
+        }
+
+        /* ===== SCROLL INDICATOR ===== */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator i {
+            color: var(--neon-green);
+            font-size: 1.5rem;
+            opacity: 0.5;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-15px); }
+            60% { transform: translateX(-50%) translateY(-8px); }
+        }
+
+        /* ===== GLOWING ORB DECORATIONS ===== */
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-orb-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(0, 255, 65, 0.05);
+            top: 10%;
+            right: -100px;
+        }
+
+        .glow-orb-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(0, 212, 255, 0.05);
+            bottom: 20%;
+            left: -100px;
+        }
+
+        .glow-orb-3 {
+            width: 350px;
+            height: 350px;
+            background: rgba(179, 0, 255, 0.04);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* ===== SCROLL TO TOP ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border: 1px solid var(--neon-green);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            color: var(--neon-green);
+            font-size: 1.2rem;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            background: var(--neon-green);
+            color: #000;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.4);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 968px) {
+            .hero-name {
+                font-size: 2.8rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .project-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .project-card:nth-child(even) .project-layout {
+                direction: ltr;
+            }
+
+            .project-image-wrapper {
+                height: 280px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 10, 15, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+                border-bottom: 1px solid var(--card-border);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero-name {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+
+            .hero-title {
+                font-size: 1.1rem;
+            }
+
+            .hero-terminal {
+                padding: 25px 20px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .project-info {
+                padding: 25px;
+            }
+
+            .project-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 1.6rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            section {
+                padding: 60px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Matrix Rain Canvas -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <!-- Cyber Grid -->
+    <div class="cyber-grid"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">&lt;SAHIL<span>/&gt;</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+
+        <div class="hero-content">
+            <div class="hero-terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dot red"></div>
+                    <div class="terminal-dot yellow"></div>
+                    <div class="terminal-dot green"></div>
+                </div>
+                <p class="hero-greeting">$ whoami<span>_</span></p>
+                <h1 class="hero-name">Sahil</h1>
+                <p class="hero-title">Cybersecurity Enthusiast & Network Engineer</p>
+                <p class="hero-tagline">"Securing networks, one packet at a time."</p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">
+                        <i class="fas fa-folder-open"></i> View Projects
+                    </a>
+                    <a href="https://github.com/sahildagar137" target="_blank" class="btn btn-outline">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-container">
+            <div class="section-header fade-in">
+                <p class="section-tag">// About Me</p>
+                <h2 class="section-title">Who Am I?</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-text fade-in">
+                    <p>
+                        Hi! I'm <span class="highlight">Sahil</span>, a passionate 
+                        <span class="highlight">Cybersecurity Enthusiast</span> and 
+                        <span class="highlight">Network Engineer</span>. I specialize in 
+                        network security, routing & switching, and building secure network 
+                        infrastructures.
+                    </p>
+                    <p>
+                        My expertise lies in designing and configuring complex network topologies 
+                        using technologies like <span class="highlight">VLANs</span>, 
+                        <span class="highlight">OSPF Routing</span>, 
+                        <span class="highlight">Inter-VLAN Routing</span>, and 
+                        <span class="highlight">Trunk configurations</span>. I work with tools 
+                        like Cisco Packet Tracer to simulate and test secure network environments.
+                    </p>
+                    <p>
+                        I'm always eager to learn new security frameworks, penetration testing 
+                        techniques, and network defense strategies to stay ahead in the 
+                        ever-evolving world of cybersecurity.
+                    </p>
+                </div>
+
+                <div class="about-stats fade-in">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-project-diagram"></i></div>
+                        <div class="stat-number">3+</div>
+                        <div class="stat-label">Network Projects</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-network-wired"></i></div>
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Topologies Built</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="stat-number">CCNA</div>
+                        <div class="stat-label">Level Skills</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-terminal"></i></div>
+                        <div class="stat-number">CLI</div>
+                        <div class="stat-label">Power User</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="section-container">
+            <div class="section-header fade-in">
+                <p class="section-tag">// My Arsenal</p>
+                <h2 class="section-title">Skills & Tools</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-card fade-in">
+                    <div class="skill-icon">🛡️</div>
+                    <div class="skill-name">Network Security</div>
+                    <div class="skill-desc">Designing and implementing secure network architectures with firewalls, ACLs, and intrusion detection systems.</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Firewalls</span>
+                        <span class="skill-tag">ACLs</span>
+                        <span class="skill-tag">IDS/IPS</span>
+                    </div>
+                </div>
+
+                <div class="skill-card fade-in">
+                    <div class="skill-icon">🔀</div>
+                    <div class="skill-name">Routing & Switching</div>
+                    <div class="skill-desc">Expert in configuring routers and switches with protocols like OSPF, RIP, EIGRP, and VLANs for optimal network performance.</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">OSPF</span>
+                        <span class="skill-tag">EIGRP</span>
+                        <span class="skill-tag">VLANs</span>
+                        <span class="skill-tag">STP</span>
+                    </div>
+                </div>
+
+                <div class="skill-card fade-in">
+                    <div class="skill-icon">🔍</div>
+                    <div class="skill-name">Network Analysis</div>
+                    <div class="skill-desc">Monitoring and analyzing network traffic to identify vulnerabilities and ensure data integrity across the network.</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Wireshark</span>
+                        <span class="skill-tag">Nmap</span>
+                        <span class="skill-tag">Packet Analysis</span>
+                    </div>
+                </div>
+
+                <div class="skill-card fade-in">
+                    <div class="skill-icon">⚙️</div>
+                    <div class="skill-name">Cisco Technologies</div>
+                    <div class="skill-desc">Proficient in Cisco IOS, Cisco Packet Tracer, and configuring enterprise-grade Cisco networking equipment.</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Cisco IOS</span>
+                        <span class="skill-tag">Packet Tracer</span>
+                        <span class="skill-tag">GNS3</span>
+                    </div>
+                </div>
+
+                <div class="skill-card fade-in">
+                    <div class="skill-icon">🐧</div>
+                    <div class="skill-name">Linux & CLI</div>
+                    <div class="skill-desc">Comfortable with Linux environments, shell scripting, and command-line tools essential for cybersecurity operations.</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Kali Linux</span>
+                        <span class="skill-tag">Bash</span>
+                        <span class="skill-tag">CLI</span>
+                    </div>
+                </div>
+
+                <div class="skill-card fade-in">
+                    <div class="skill-icon">🔐</div>
+                    <div class="skill-name">Security Protocols</div>
+                    <div class="skill-desc">Knowledge of security protocols including 802.1Q, SSH, HTTPS, IPSec, and authentication mechanisms.</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">802.1Q</span>
+                        <span class="skill-tag">SSH</span>
+                        <span class="skill-tag">IPSec</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="section-container">
+            <div class="section-header fade-in">
+                <p class="section-tag">// My Work</p>
+                <h2 class="section-title">Projects</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="projects-grid">
+
+                <!-- Project 1: VLAN Trunking -->
+                <div class="project-card fade-in">
+                    <div class="project-layout">
+                        <div class="project-image-wrapper">
+                            <img src="images/vlan-trunking.png" alt="VLAN Trunking with 802.1Q Encapsulation">
+                            <div class="project-image-overlay"></div>
+                            <span class="project-number">PROJECT 01</span>
+                        </div>
+                        <div class="project-info">
+                            <p class="project-category">Network Security / VLAN</p>
+                            <h3 class="project-title">Inter-VLAN Routing with 802.1Q Trunk</h3>
+                            <p class="project-desc">
+                                Designed and configured a multi-VLAN network environment with Inter-VLAN 
+                                routing using IEEE 802.1Q encapsulation (DOT1Q). The topology connects 
+                                two remote sites via serial links with trunk ports enabling seamless 
+                                communication between VLANs across different network segments.
+                            </p>
+                            <ul class="project-highlights">
+                                <li>Configured VLAN 1 & VLAN 2 with proper segmentation</li>
+                                <li>Implemented 802.1Q trunk encapsulation on router sub-interfaces</li>
+                                <li>Established WAN connectivity using serial interfaces</li>
+                                <li>Verified end-to-end connectivity with ICMP ping tests</li>
+                            </ul>
+                            <div class="project-tech">
+                                <span class="tech-badge">Cisco Packet Tracer</span>
+                                <span class="tech-badge">VLANs</span>
+                                <span class="tech-badge">802.1Q</span>
+                                <span class="tech-badge">Trunking</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: Mesh Topology -->
+                <div class="project-card fade-in">
+                    <div class="project-layout">
+                        <div class="project-image-wrapper">
+                            <img src="images/mesh-topology.png" alt="Complex Mesh Network Topology">
+                            <div class="project-image-overlay"></div>
+                            <span class="project-number">PROJECT 02</span>
+                        </div>
+                        <div class="project-info">
+                            <p class="project-category">Network Engineering / Topology</p>
+                            <h3 class="project-title">Enterprise Mesh Network Topology</h3>
+                            <p class="project-desc">
+                                Built a complex enterprise-level mesh network topology with multiple 
+                                routers and switches interconnected for redundancy and fault tolerance. 
+                                The design ensures high availability with multiple routing paths, 
+                                simulating a real-world corporate network infrastructure.
+                            </p>
+                            <ul class="project-highlights">
+                                <li>Designed mesh topology with 7+ routers for redundancy</li>
+                                <li>Configured multiple routing paths for fault tolerance</li>
+                                <li>Connected 6+ switches with end-user PCs</li>
+                                <li>Tested network resilience with ICMP and PDU simulations</li>
+                            </ul>
+                            <div class="project-tech">
+                                <span class="tech-badge">Cisco Packet Tracer</span>
+                                <span class="tech-badge">Mesh Topology</span>
+                                <span class="tech-badge">Routing</span>
+                                <span class="tech-badge">Redundancy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: OSPF Routing -->
+                <div class="project-card fade-in">
+                    <div class="project-layout">
+                        <div class="project-image-wrapper">
+                            <img src="images/ospf-routing.png" alt="OSPF Multi-Area Routing">
+                            <div class="project-image-overlay"></div>
+                            <span class="project-number">PROJECT 03</span>
+                        </div>
+                        <div class="project-info">
+                            <p class="project-category">Routing Protocol / OSPF</p>
+                            <h3 class="project-title">OSPF Multi-Area Routing Configuration</h3>
+                            <p class="project-desc">
+                                Implemented OSPF (Open Shortest Path First) routing protocol across 
+                                multiple areas to simulate a departmental network. Area 1 serves the 
+                                IT department while Area 2 handles the Sales department, with 4 routers 
+                                connected via serial links ensuring proper inter-area communication.
+                            </p>
+                            <ul class="project-highlights">
+                                <li>Configured OSPF multi-area routing (Area 1: IT, Area 2: Sales)</li>
+                                <li>Set up 4 routers with serial WAN connections</li>
+                                <li>Implemented proper subnet addressing across all segments</li>
+                                <li>Verified routing tables and inter-area connectivity</li>
+                            </ul>
+                            <div class="project-tech">
+                                <span class="tech-badge">Cisco Packet Tracer</span>
+                                <span class="tech-badge">OSPF</span>
+                                <span class="tech-badge">Multi-Area</span>
+                                <span class="tech-badge">WAN Links</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-container">
+            <div class="section-header fade-in">
+                <p class="section-tag">// Get In Touch</p>
+                <h2 class="section-title">Contact Me</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="contact-content fade-in">
+                <p class="contact-text">
+                    Interested in cybersecurity collaboration, network projects, or just want 
+                    to connect? Feel free to reach out through any of the platforms below. 
+                    I'm always open to discussing new ideas and opportunities!
+                </p>
+
+                <div class="contact-links">
+                    <a href="https://github.com/sahildagar137" target="_blank" class="contact-card">
+                        <i class="fab fa-github"></i>
+                        <span class="contact-card-label">GitHub</span>
+                        <span class="contact-card-value">sahildagar137</span>
+                    </a>
+
+                    <a href="#" class="contact-card" id="linkedin-card" onclick="event.preventDefault()">
+                        <i class="fab fa-linkedin"></i>
+                        <span class="contact-card-label">LinkedIn</span>
+                        <span class="contact-card-value">Coming Soon</span>
+                    </a>
+
+                    <a href="mailto:sahilnikhil137@gmail.com" class="contact-card">
+                        <i class="fas fa-envelope"></i>
+                        <span class="contact-card-label">Email</span>
+                        <span class="contact-card-value">sahilnikhil137@gmail.com</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>
+            <span class="heart">&lt;/&gt;</span> Designed & Built by 
+            <span style="color: var(--neon-green);">Sahil</span> | 
+            <span class="heart">🛡️</span> Cybersecurity Portfolio 2026
+        </p>
+    </footer>
+
+    <!-- Scroll to Top -->
+    <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // ===== MATRIX RAIN EFFECT =====
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+        const charArray = chars.split('');
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(10, 10, 15, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00ff41';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = charArray[Math.floor(Math.random() * charArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 50);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // ===== NAVBAR SCROLL EFFECT =====
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            const scrollTop = document.getElementById('scrollTop');
+
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            if (window.scrollY > 500) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        // ===== MOBILE MENU =====
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Close menu on link click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+
+        // ===== SCROLL TO TOP =====
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ===== FADE IN ANIMATION =====
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // ===== TYPING EFFECT FOR GREETING =====
+        const greetingEl = document.querySelector('.hero-greeting');
+        const greetingText = '$ whoami';
+        greetingEl.innerHTML = '';
+        let charIndex = 0;
+
+        function typeGreeting() {
+            if (charIndex < greetingText.length) {
+                greetingEl.innerHTML = greetingText.substring(0, charIndex + 1) + '<span>_</span>';
+                charIndex++;
+                setTimeout(typeGreeting, 100);
+            }
+        }
+
+        setTimeout(typeGreeting, 500);
+    </script>
+
+</body>
+</html>
